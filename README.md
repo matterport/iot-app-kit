@@ -7,6 +7,8 @@
 
 IoT Application Kit is a development library for creating web applications to visualize industrial data.
 
+For an example of a real world use case using the IoT App Kit, [visit this tutorial on how to use IoT App Kit](https://aws.amazon.com/blogs/iot/build-iot-applications-using-aws-iot-application-kit/)
+
 <img width="1170" alt="IoT App Kit Demo" src="https://user-images.githubusercontent.com/6397726/159107236-ea95e7ba-a89c-43e6-a34c-c5ea1dd37e8b.png">
 
 # Documentation table of contents
