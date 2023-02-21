@@ -1,4 +1,4 @@
-import { DashboardConfiguration, Widget } from '~/types';
+import { AnyWidget, DashboardConfiguration } from '~/types';
 import { DescribeAssetResponse } from '@aws-sdk/client-iotsitewise';
 
 export type DashboardState = {
@@ -10,8 +10,8 @@ export type DashboardState = {
     stretchToFit: boolean;
   };
   readOnly: boolean;
-  selectedWidgets: Widget[];
-  copiedWidgets: Widget[];
+  selectedWidgets: AnyWidget[];
+  copiedWidgets: AnyWidget[];
   pasteCounter: number;
   dashboardConfiguration: DashboardConfiguration;
   assetsDescriptionMap: {

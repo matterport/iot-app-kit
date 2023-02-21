@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 
-import { TextWidget } from '~/types';
 import StyledText from './index';
+import { TextWidget } from '../../types';
+import { useIsSelected } from '~/customization/hooks/useIsSelected';
 
 type EditableStyledTextProps = TextWidget & {
-  isSelected: boolean;
   handleSetEdit: (isEditing: boolean) => void;
 };
 
-const EditableStyledText: React.FC<EditableStyledTextProps> = ({ isSelected, handleSetEdit, ...widget }) => {
+const EditableStyledText: React.FC<EditableStyledTextProps> = ({ handleSetEdit, ...widget }) => {
+  const isSelected = useIsSelected(widget);
+
   const { x, y } = widget;
 
   const [editStaged, setEditStaged] = useState(false);

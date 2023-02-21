@@ -4,7 +4,7 @@ import Box from '@cloudscape-design/components/box';
 import { SiteWiseQuery } from '@iot-app-kit/source-iotsitewise';
 import { WebglContext } from '@iot-app-kit/react-components';
 
-import { Position, Widget } from '~/types';
+import { AnyWidget, Position, Widget } from '~/types';
 import { selectedRect } from '~/util/select';
 import { DashboardMessages } from '~/messages';
 
@@ -65,7 +65,7 @@ const InternalDashboard: React.FC<InternalDashboardProps> = ({ messageOverrides,
   const [viewFrame, setViewFrameElement] = useState<HTMLDivElement | undefined>(undefined);
 
   const dispatch = useDispatch();
-  const createWidgets = (widgets: Widget[]) =>
+  const createWidgets = (widgets: AnyWidget[]) =>
     dispatch(
       onCreateWidgetsAction({
         widgets,
@@ -126,7 +126,7 @@ const InternalDashboard: React.FC<InternalDashboardProps> = ({ messageOverrides,
 
     const { x, y } = toGridPosition(position, cellSize);
 
-    const widget: Widget = {
+    const widget: AnyWidget = {
       ...widgetPresets,
       x: Math.floor(x),
       y: Math.floor(y),
@@ -224,7 +224,10 @@ const InternalDashboard: React.FC<InternalDashboardProps> = ({ messageOverrides,
               <WebglContext viewFrame={viewFrame} />
             </div>
           }
-          rightPane={<SidePanel messageOverrides={messageOverrides} />}
+          rightPane={
+          // <SidePanel messageOverrides={messageOverrides} />
+          <div></div>
+          }
         />
       </div>
     </div>

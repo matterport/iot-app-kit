@@ -1,10 +1,10 @@
 import React from 'react';
 
-import './dynamicWidget.css';
-import { SiteWiseQuery } from '@iot-app-kit/source-iotsitewise';
-import { AppKitComponentTag, AppKitComponentTags, AppKitWidget, DashboardConfiguration, Widget } from '~/types';
-import { ComponentMap } from './componentMap';
+import { AnyWidget, } from '~/types';
 import { WidgetsMessages } from '~/messages';
+import { WidgetComponentMap } from '~/customization/widgetComponentMap';
+
+import './dynamicWidget.css';
 
 const IconX: React.FC = () => (
   <svg
@@ -21,70 +21,33 @@ const IconX: React.FC = () => (
 );
 
 export type DynamicWidgetProps = {
-  readOnly: boolean;
-  query?: SiteWiseQuery;
-  viewport: DashboardConfiguration['viewport'];
-  widget: Widget;
-  isSelected: boolean;
+  widget: AnyWidget;
   widgetsMessages: WidgetsMessages;
 };
 
 export const getDragLayerProps = ({
   widget,
-  viewport,
   widgetsMessages,
 }: {
-  widget: Widget;
-  viewport: DashboardConfiguration['viewport'];
+  widget: AnyWidget;
   widgetsMessages: WidgetsMessages;
 }): DynamicWidgetProps => ({
   widget,
-  viewport,
   widgetsMessages,
-  isSelected: false,
-  readOnly: true,
 });
 
 const DynamicWidgetComponent: React.FC<DynamicWidgetProps> = ({
-  readOnly,
-  query,
   widget,
-  viewport,
-  isSelected,
   widgetsMessages,
 }) => {
-  const { invalidTagHeader, invalidTagSubheader, text, input } = widgetsMessages;
+  const { invalidTagHeader, invalidTagSubheader, } = widgetsMessages;
 
-  const componentTag = widget.componentTag;
-  const Component = ComponentMap[componentTag];
+  const componentTag = widget.type;
+  const Component = WidgetComponentMap[componentTag];
   const componentIsRegistered = typeof Component !== 'undefined';
 
-  let componentSpecificProps = {};
-  if (AppKitComponentTags.includes(componentTag as AppKitComponentTag)) {
-    componentSpecificProps = {
-      viewport,
-      widgetId: widget.id,
-      queries: query !== undefined ? [query?.timeSeriesData({ assets: (widget as AppKitWidget).assets || [] })] : [],
-    };
-  } else if (componentTag === 'text') {
-    componentSpecificProps = {
-      messageOverrides: text,
-    };
-  } else if (componentTag === 'input') {
-    componentSpecificProps = {
-      messageOverrides: input,
-    };
-  }
-
-  const props = {
-    ...componentSpecificProps,
-    ...widget,
-    readOnly,
-    isSelected,
-  };
-
   return componentIsRegistered ? (
-    React.createElement(Component, props)
+    React.createElement(Component, widget)
   ) : (
     <div className='error-container'>
       <IconX />

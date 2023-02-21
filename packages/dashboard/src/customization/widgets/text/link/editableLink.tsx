@@ -15,9 +15,10 @@ import { CancelableEventHandler } from '@cloudscape-design/components/internal/e
 import { useClickOutside } from '~/hooks/useClickOutside';
 import { useHover } from '~/hooks/useHover';
 import { onUpdateWidgetsAction } from '~/store/actions';
-import { TextWidget } from '~/types';
 
 import './editableLink.css';
+import { TextWidget } from '../../types';
+import { useWidgetActions } from '~/customization/hooks/useWidgetActions';
 
 type EditableTextLinkProps = TextWidget & {
   isSelected: boolean;
@@ -26,8 +27,10 @@ type EditableTextLinkProps = TextWidget & {
 
 const EditableTextLink: React.FC<EditableTextLinkProps> = ({ isSelected, handleSetEdit, ...widget }) => {
   const dispatch = useDispatch();
+  const { update } = useWidgetActions();
 
-  const { text, link, messageOverrides, x, y } = widget;
+  const { x, y } = widget;
+  const { value, href } = widget.properties;
 
   const editableMenuElementRef = useRef(null);
   const [showPopover, setShowPopover] = useState(false);
@@ -48,16 +51,22 @@ const EditableTextLink: React.FC<EditableTextLinkProps> = ({ isSelected, handleS
   const handleSetText = (text: string) => {
     const updatedWidget: TextWidget = {
       ...widget,
-      text,
+      properties: {
+        ...widget.properties,
+        value: text,
+      },
     };
-    dispatch(onUpdateWidgetsAction({ widgets: [updatedWidget] }));
+    update(updatedWidget);
   };
   const handleSetLink = (link: string) => {
     const updatedWidget: TextWidget = {
       ...widget,
-      link,
+      properties: {
+        ...widget.properties,
+        href: link,
+      },
     };
-    dispatch(onUpdateWidgetsAction({ widgets: [updatedWidget] }));
+    update(updatedWidget);
   };
 
   const handleShowEditMenu = (editing: boolean) => {
@@ -72,10 +81,13 @@ const EditableTextLink: React.FC<EditableTextLinkProps> = ({ isSelected, handleS
   const handleClickRemove: CancelableEventHandler = () => {
     const updatedWidget: TextWidget = {
       ...widget,
-      isLink: false,
-      link: '',
+      properties: {
+        ...widget.properties,
+        href: '',
+        isUrl: false,
+      },
     };
-    dispatch(onUpdateWidgetsAction({ widgets: [updatedWidget] }));
+    update(updatedWidget);
   };
 
   const clickOutsideRef = useClickOutside<HTMLDivElement>(() => {
@@ -146,17 +158,17 @@ const EditableTextLink: React.FC<EditableTextLinkProps> = ({ isSelected, handleS
           <div className='text-widget-link-edit-menu'>
             {editLinkAndText ? (
               <div className='text-widget-link-edit' ref={clickOutsideRef}>
-                <FormField {...poppoverInputAttributes} label={messageOverrides?.editTextLabel}>
+                <FormField {...poppoverInputAttributes} label="Text">
                   <Input
-                    value={text}
+                    value={value}
                     inputMode='text'
                     type='text'
                     onChange={(event) => handleSetText(event.detail.value)}
                   />
                 </FormField>
-                <FormField {...poppoverInputAttributes} label={messageOverrides?.editLinkLabel}>
+                <FormField {...poppoverInputAttributes} label="Link">
                   <Input
-                    value={link || ''}
+                    value={href || ''}
                     inputMode='url'
                     type='url'
                     onChange={(event) => handleSetLink(event.detail.value)}
@@ -165,16 +177,16 @@ const EditableTextLink: React.FC<EditableTextLinkProps> = ({ isSelected, handleS
               </div>
             ) : (
               <>
-                {link && link.length > 0 && (
-                  <Button iconName='external' variant='link' href={link} target='_blank' {...poppoverButtonAttributes}>
-                    {link}
+                {href && href.length > 0 && (
+                  <Button iconName='external' variant='link' href={href} target='_blank' {...poppoverButtonAttributes}>
+                    {href}
                   </Button>
                 )}
                 <Button onClick={handleClickEdit} iconName='edit' variant='link' {...poppoverButtonAttributes}>
-                  {messageOverrides?.editAction}
+                  Edit
                 </Button>
                 <Button onClick={handleClickRemove} iconName='close' variant='link' {...poppoverButtonAttributes}>
-                  {messageOverrides?.removeAction}
+                  Remove
                 </Button>
               </>
             )}

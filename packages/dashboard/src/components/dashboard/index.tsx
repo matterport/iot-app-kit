@@ -16,6 +16,11 @@ import { ClientContext } from './clientContext';
 
 import '@cloudscape-design/global-styles/index.css';
 import '../../styles/variables.css';
+import { DataSourceProvider } from '~/customization/hooks/useDataSource';
+import { setupDashboardPlugins } from '~/customization/api';
+import plugins from '~/customization/pluginsConfiguration';
+
+setupDashboardPlugins(plugins);
 
 export type DashboardProps = {
   messageOverrides?: RecursivePartial<DashboardMessages>;
@@ -35,11 +40,13 @@ const Dashboard: React.FC<DashboardProps> = ({ messageOverrides, query, onSave, 
             enableKeyboardEvents: true,
           }}
         >
-          <InternalDashboard
-            query={query}
-            onSave={onSave}
-            messageOverrides={merge(messageOverrides, DefaultDashboardMessages)}
-          />
+          <DataSourceProvider query={query}>
+            <InternalDashboard
+              query={query}
+              onSave={onSave}
+              messageOverrides={merge(messageOverrides, DefaultDashboardMessages)}
+            />
+          </DataSourceProvider>
         </DndProvider>
       </Provider>
     </ClientContext.Provider>

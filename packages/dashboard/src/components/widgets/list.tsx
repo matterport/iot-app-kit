@@ -4,7 +4,7 @@ import map from 'lodash/map';
 import includes from 'lodash/includes';
 import { SiteWiseQuery } from '@iot-app-kit/source-iotsitewise';
 
-import { DashboardConfiguration, Widget } from '~/types';
+import { AnyWidget, DashboardConfiguration, Widget } from '~/types';
 
 import './list.css';
 import WidgetComponent from './widget';
@@ -15,7 +15,7 @@ export type WidgetsProps = {
   readOnly: boolean;
   query?: SiteWiseQuery;
   dashboardConfiguration: DashboardConfiguration;
-  selectedWidgets: Widget[];
+  selectedWidgets: AnyWidget[];
   cellSize: number;
   dragEnabled: boolean;
   messageOverrides: DashboardMessages;
