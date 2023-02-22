@@ -220,10 +220,9 @@ export namespace Component {
     config?: OverlayPanelConfig;
 
     valueDataBindings: {
-      [key: string]: {
-        valueDataBinding?: ValueDataBinding;
-      };
-    };
+      bindingName: string;
+      valueDataBinding?: ValueDataBinding;
+    }[];
   }
 
   export interface ILightShadowSettings {

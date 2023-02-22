@@ -2,20 +2,24 @@
 
 exports[`DataOverlayDataRow Markdown should render markdown row for overlay panel correctly 1`] = `
 <div>
-  <p
+  <div
     class="markdown-row panel-row"
   >
-    content
-  </p>
+    <h1>
+      content
+    </h1>
+  </div>
 </div>
 `;
 
 exports[`DataOverlayDataRow Markdown should render markdown row for text annotation correctly 1`] = `
 <div>
-  <p
+  <div
     class="markdown-row annotation-row"
   >
-    content
-  </p>
+    <h1>
+      content
+    </h1>
+  </div>
 </div>
 `;

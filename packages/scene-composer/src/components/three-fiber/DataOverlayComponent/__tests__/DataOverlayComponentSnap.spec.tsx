@@ -21,11 +21,12 @@ describe('DataOverlayComponent', () => {
         content: 'content',
       },
     ],
-    valueDataBindings: {
-      bindingA: {
+    valueDataBindings: [
+      {
+        bindingName: 'bindingA',
         valueDataBinding: { dataBindingContext: 'dataBindingContext' },
       },
-    },
+    ],
   };
   const mockNode: any = { ref: 'node-ref', transform: { position: [1, 2, 3] }, components: [mockComponent] };
 

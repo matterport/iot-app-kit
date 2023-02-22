@@ -8,7 +8,7 @@ describe('DataOverlayDataRow', () => {
   describe('Markdown', () => {
     const mockMarkdownRow: Component.DataOverlayMarkdownRow = {
       rowType: Component.DataOverlayRowType.Markdown,
-      content: 'content',
+      content: '# content',
     };
 
     it('should render markdown row for overlay panel correctly', () => {
