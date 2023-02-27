@@ -136,7 +136,7 @@ export const createNodeWithTransform = (
     parentRef: targetRef || parent?.userData.nodeRef,
     transform: {
       position: finalTransform.position.toArray(),
-      rotation: finalTransform.rotation.toVector3().toArray(),
+      rotation: new THREE.Vector3().setFromEuler(finalTransform.rotation).toArray(),
       scale: scale.toArray(),
     },
   } as ISceneNodeInternal;

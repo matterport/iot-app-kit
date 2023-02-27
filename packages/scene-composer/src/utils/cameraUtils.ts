@@ -11,9 +11,8 @@ export const getCameraSettings = (
   const transform = object3D
     ? {
         position: object3D.getWorldPosition(new THREE.Vector3()).toArray(),
-        rotation: new THREE.Euler()
-          .setFromQuaternion(object3D.getWorldQuaternion(new THREE.Quaternion()))
-          .toVector3()
+        rotation: new THREE.Vector3()
+          .setFromEuler(new THREE.Euler().setFromQuaternion(object3D.getWorldQuaternion(new THREE.Quaternion())))
           .toArray(),
         scale: object3D.getWorldScale(new THREE.Vector3()).toArray(),
       }
